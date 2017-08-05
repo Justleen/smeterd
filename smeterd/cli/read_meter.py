@@ -72,7 +72,7 @@ class ReadMeterCommand(Command):
             return 0
 
         data = [
-            ('Time', datetime.now()),
+            ('Telegram Time', self.convertTime(packet['kwh']['etime'])),
             ('Total kWh High consumed', int(packet['kwh']['high']['consumed']*1000)),
             ('Total kWh Low consumed', int(packet['kwh']['low']['consumed']*1000)),
             ('Total gas consumed', int(packet['gas']['total']*1000)),
@@ -85,3 +85,21 @@ class ReadMeterCommand(Command):
             print('\n'.join(['%-25s %s' % (k,d) for k,d in data]))
 
         return 0
+
+    def convertTime(self, metertime):
+	try:
+		x = int(metertime)  # crappy way to check if its all int, then cast to str and check length
+		timestamp = str(x)
+		if len(timestamp) == 12:
+			year	= '20' + timestamp[0:2]
+			month	= timestamp[2:4]
+			day	= timestamp[4:6]
+			hour	= timestamp[6:8] 
+			minutes	= timestamp[8:10]
+			seconds	= timestamp[10:12] 
+			return datetime(*map(int,( year, month, day, hour, minutes, seconds ) )).strftime('%c')  #
+        except Exception as e:
+            parser.error(e)
+        finally:
+            pass
+

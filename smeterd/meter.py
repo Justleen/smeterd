@@ -126,6 +126,8 @@ class P1Packet(object):
 
         keys['kwh'] = {}
         keys['kwh']['eid'] = self.get(b'^0-0:96\.1\.1\(([^)]+)\)\r\n')
+        keys['kwh']['etime'] = self.get(b'^0-0:1\.0\.0\(([^)]+)[SW]\)\r\n')
+
         keys['kwh']['tariff'] = self.get_int(b'^0-0:96\.14\.0\(([0-9]+)\)\r\n')
         keys['kwh']['switch'] = self.get_int(b'^0-0:96\.3\.10\((\d)\)\r\n')
         keys['kwh']['treshold'] = self.get_float(b'^0-0:17\.0\.0\(([0-9]{4}\.[0-9]{2})\*kW\)\r\n')
@@ -140,6 +142,14 @@ class P1Packet(object):
 
         keys['kwh']['current_consumed'] = self.get_float(b'^1-0:1\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
         keys['kwh']['current_produced'] = self.get_float(b'^1-0:2\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+
+        keys['kwh']['current_consumed_phaseOne'] = self.get_float(b'^1-0:21\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+        keys['kwh']['current_consumed_phaseTwo'] = self.get_float(b'^1-0:41\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+        keys['kwh']['current_consumed_phaseThree'] = self.get_float(b'^1-0:61\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+
+        keys['kwh']['current_produced_phaseOne'] = self.get_float(b'^1-0:22\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+        keys['kwh']['current_produced_phaseTwo'] = self.get_float(b'^1-0:42\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
+        keys['kwh']['current_produced_phaseThree'] = self.get_float(b'^1-0:62\.7\.0\(([0-9]+\.[0-9]+)\*kW\)\r\n')
 
         keys['gas'] = {}
         keys['gas']['eid'] = self.get(b'^0-1:96\.1\.0\(([^)]+)\)\r\n')
